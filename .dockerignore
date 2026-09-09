@@ -1,0 +1,61 @@
+# =========================================================
+# Docker ignore file
+# =========================================================
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Pytest
+.pytest_cache/
+
+# Git
+.git/
+.github/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+
+# Environment / secrets
+.env
+.env.*
+*.pem
+*.key
+
+# Local logs
+*.log
+
+# Unnecessary raw development files
+*.tmp
+*.temp
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Documentation source images are not required by API
+docs/
+
+# Notebooks are not required by API
+notebooks/
+
+# Tests are not required inside production container
+tests/
+
+# Dataset files are not required by online API
+data/raw/
+data/processed/
+data/recent_batch/
+
+# Existing caches
+.pytest_cache/

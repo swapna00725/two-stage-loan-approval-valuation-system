@@ -3,16 +3,31 @@ API performance benchmark for the
 Two Stage Loan Approval & Valuation System.
 """
 
+import json
 import statistics
 import time
+from datetime import datetime, timezone
+from pathlib import Path
 
 import requests
 
+
+# =========================================================
+# CONFIGURATION
+# =========================================================
 
 API_URL = "http://127.0.0.1:8000/predict"
 
 NUM_REQUESTS = 100
 
+REPORT_PATH = Path(
+    "artifacts/reports/docker_benchmark.json"
+)
+
+
+# =========================================================
+# SAMPLE APPLICATION
+# =========================================================
 
 APPLICATION = {
     "no_of_dependents": 2,
@@ -28,6 +43,10 @@ APPLICATION = {
     "bank_asset_value": 10000000,
 }
 
+
+# =========================================================
+# PERCENTILE CALCULATION
+# =========================================================
 
 def calculate_percentile(
     values,
@@ -65,6 +84,10 @@ def calculate_percentile(
     )
 
 
+# =========================================================
+# BENCHMARK
+# =========================================================
+
 def run_benchmark():
 
     latencies = []
@@ -72,6 +95,12 @@ def run_benchmark():
     successful_requests = 0
 
     failed_requests = 0
+
+    # -----------------------------------------------------
+    # Benchmark wall-clock start
+    # -----------------------------------------------------
+
+    benchmark_start = time.perf_counter()
 
     print("=" * 60)
 
@@ -90,6 +119,10 @@ def run_benchmark():
     )
 
     print("-" * 60)
+
+    # -----------------------------------------------------
+    # Send requests
+    # -----------------------------------------------------
 
     for i in range(NUM_REQUESTS):
 
@@ -128,6 +161,21 @@ def run_benchmark():
 
             failed_requests += 1
 
+    # -----------------------------------------------------
+    # Benchmark wall-clock end
+    # -----------------------------------------------------
+
+    benchmark_end = time.perf_counter()
+
+    total_wall_time_seconds = (
+        benchmark_end
+        - benchmark_start
+    )
+
+    # -----------------------------------------------------
+    # No successful requests
+    # -----------------------------------------------------
+
     if not latencies:
 
         print(
@@ -135,6 +183,10 @@ def run_benchmark():
         )
 
         return
+
+    # =====================================================
+    # METRICS
+    # =====================================================
 
     average_latency = (
         statistics.mean(latencies)
@@ -155,20 +207,24 @@ def run_benchmark():
         latencies
     )
 
-    total_time_seconds = (
-        sum(latencies) / 1000
-    )
-
-    throughput = (
-        successful_requests
-        / total_time_seconds
-    )
-
     success_rate = (
         successful_requests
         / NUM_REQUESTS
         * 100
     )
+
+    # -----------------------------------------------------
+    # Throughput
+    # -----------------------------------------------------
+
+    throughput = (
+        successful_requests
+        / total_wall_time_seconds
+    )
+
+    # =====================================================
+    # CONSOLE OUTPUT
+    # =====================================================
 
     print()
 
@@ -218,6 +274,112 @@ def run_benchmark():
 
     print("=" * 60)
 
+    # =====================================================
+    # REPORT
+    # =====================================================
+
+    report = {
+
+        "benchmark_type": "Dockerized API",
+
+        "timestamp_utc": (
+            datetime.now(
+                timezone.utc
+            ).isoformat()
+        ),
+
+        "endpoint": API_URL,
+
+        "total_requests": NUM_REQUESTS,
+
+        "successful_requests": (
+            successful_requests
+        ),
+
+        "failed_requests": (
+            failed_requests
+        ),
+
+        "success_rate_percent": round(
+            success_rate,
+            2,
+        ),
+
+        "latency_ms": {
+
+            "average": round(
+                average_latency,
+                2,
+            ),
+
+            "p50": round(
+                median_latency,
+                2,
+            ),
+
+            "p95": round(
+                p95_latency,
+                2,
+            ),
+
+            "max": round(
+                max_latency,
+                2,
+            ),
+        },
+
+        "total_wall_time_seconds": round(
+            total_wall_time_seconds,
+            4,
+        ),
+
+        "throughput_requests_per_second": round(
+            throughput,
+            2,
+        ),
+
+        "status": (
+            "PASS"
+            if failed_requests == 0
+            else "PARTIAL"
+        ),
+    }
+
+    # -----------------------------------------------------
+    # Create report directory
+    # -----------------------------------------------------
+
+    REPORT_PATH.parent.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    # -----------------------------------------------------
+    # Save JSON report
+    # -----------------------------------------------------
+
+    with REPORT_PATH.open(
+        "w",
+        encoding="utf-8",
+    ) as file:
+
+        json.dump(
+            report,
+            file,
+            indent=4,
+        )
+
+    print()
+
+    print(
+        f"Report saved  : "
+        f"{REPORT_PATH}"
+    )
+
+
+# =========================================================
+# MAIN
+# =========================================================
 
 if __name__ == "__main__":
 

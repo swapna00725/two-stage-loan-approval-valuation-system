@@ -1,0 +1,18 @@
+{
+    "benchmark_type": "Dockerized API",
+    "timestamp_utc": "2026-09-09T06:31:01.803354+00:00",
+    "endpoint": "http://127.0.0.1:8000/predict",
+    "total_requests": 100,
+    "successful_requests": 100,
+    "failed_requests": 0,
+    "success_rate_percent": 100.0,
+    "latency_ms": {
+        "average": 160.85,
+        "p50": 149.63,
+        "p95": 219.55,
+        "max": 296.52
+    },
+    "total_wall_time_seconds": 16.0862,
+    "throughput_requests_per_second": 6.22,
+    "status": "PASS"
+}
