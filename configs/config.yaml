@@ -1,0 +1,57 @@
+project:
+  name: "two-stage-loan-approval-valuation-system"
+  version: "1.0.0"
+
+data:
+  raw_path: "data/raw/loan_approval_dataset.csv"
+  processed_path: "data/processed/loan_processed.csv"
+  recent_batch_path: "data/recent_batch/sample_applications.csv"
+
+artifacts:
+  model_path: "artifacts/models"
+  report_path: "artifacts/reports"
+  monitoring_path: "artifacts/monitoring"
+  log_path: "artifacts/logs"
+
+stage1:
+  task: "classification"
+  target: "loan_status"
+  model: "RandomForestClassifier"
+  model_path: "artifacts/models/stage1_approval_model.joblib"
+  version: "1.0.0"
+
+  parameters:
+    n_estimators: 200
+    random_state: 42
+
+stage2:
+  task: "regression"
+  target: "loan_amount"
+  model: "LinearRegression"
+  model_path: "artifacts/models/stage2_valuation_model.joblib"
+  version: "1.0.0"
+
+features:
+  stage1:
+    exclude:
+      - "loan_id"
+      - "loan_status"
+
+  stage2:
+    exclude:
+      - "loan_id"
+      - "loan_amount"
+      - "loan_to_income_ratio"
+      - "requested_loan_per_term"
+      - "asset_coverage_ratio"
+
+monitoring:
+  drift_threshold_percent: 20.0
+  recent_batch_path: "data/recent_batch/sample_applications.csv"
+  report_path: "artifacts/monitoring/monitoring_report.json"
+
+api:
+  host: "0.0.0.0"
+  port: 8000
+  title: "Two Stage Loan Approval & Valuation System"
+  version: "1.0.0"
