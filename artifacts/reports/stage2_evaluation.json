@@ -1,0 +1,26 @@
+{
+    "stage": "stage2_loan_valuation",
+    "target": "loan_amount",
+    "baseline": {
+        "model": "LinearRegression",
+        "metrics": {
+            "mae": 2632950.144144625,
+            "rmse": 3454214.6411292064,
+            "r2": 0.8511988124273252
+        }
+    },
+    "candidate": {
+        "model": "RandomForestRegressor",
+        "metrics": {
+            "mae": 2611271.2724434035,
+            "rmse": 3476198.3273707493,
+            "r2": 0.8492987521132729
+        }
+    },
+    "promoted_model": "LinearRegression",
+    "promoted_metrics": {
+        "mae": 2632950.144144625,
+        "rmse": 3454214.6411292064,
+        "r2": 0.8511988124273252
+    }
+}

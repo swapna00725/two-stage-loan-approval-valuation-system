@@ -1,0 +1,93 @@
+{
+    "reference_rows": 4269,
+    "recent_rows": 5,
+    "data_quality": {
+        "row_count": 5,
+        "missing_columns": [],
+        "null_counts": {
+            "no_of_dependents": 0,
+            "education": 0,
+            "self_employed": 0,
+            "income_annum": 0,
+            "loan_amount": 0,
+            "loan_term": 0,
+            "cibil_score": 0,
+            "residential_assets_value": 0,
+            "commercial_assets_value": 0,
+            "luxury_assets_value": 0,
+            "bank_asset_value": 0
+        },
+        "total_nulls": 0,
+        "quality_issues": [],
+        "quality_status": "PASS"
+    },
+    "drift": {
+        "features": {
+            "income_annum": {
+                "reference_mean": 5059123.9166081045,
+                "recent_mean": 8400000.0,
+                "drift_percentage": 66.03665256003039
+            },
+            "loan_amount": {
+                "reference_mean": 15133450.456781447,
+                "recent_mean": 15600000.0,
+                "drift_percentage": 3.082902637114642
+            },
+            "loan_term": {
+                "reference_mean": 10.900445069102835,
+                "recent_mean": 10.0,
+                "drift_percentage": 8.260626638586844
+            },
+            "cibil_score": {
+                "reference_mean": 599.9360505973295,
+                "recent_mean": 704.0,
+                "drift_percentage": 17.34584032732466
+            },
+            "residential_assets_value": {
+                "reference_mean": 7472616.537830873,
+                "recent_mean": 16000000.0,
+                "drift_percentage": 114.11509501388689
+            },
+            "commercial_assets_value": {
+                "reference_mean": 4973155.3056922,
+                "recent_mean": 4200000.0,
+                "drift_percentage": 15.546574723038662
+            },
+            "luxury_assets_value": {
+                "reference_mean": 15126305.926446475,
+                "recent_mean": 2700000.0,
+                "drift_percentage": 82.1503015136076
+            },
+            "bank_asset_value": {
+                "reference_mean": 4976692.433825252,
+                "recent_mean": 7400000.0,
+                "drift_percentage": 48.6931350168271
+            }
+        },
+        "summary": {
+            "threshold_percentage": 20.0,
+            "drifted_features": [
+                "income_annum",
+                "residential_assets_value",
+                "luxury_assets_value",
+                "bank_asset_value"
+            ],
+            "drift_detected": true
+        }
+    },
+    "predictions": {
+        "status": "PASS",
+        "prediction_counts": {
+            "Approved": 5
+        },
+        "prediction_percentages": {
+            "Approved": 100.0
+        }
+    },
+    "retraining": {
+        "retrain_required": true,
+        "reasons": [
+            "Feature drift detected"
+        ]
+    }
+}

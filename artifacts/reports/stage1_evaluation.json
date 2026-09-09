@@ -1,0 +1,31 @@
+{
+    "stage": "stage1_loan_approval",
+    "baseline": {
+        "model": "LogisticRegression",
+        "metrics": {
+            "accuracy": 0.9742388758782201,
+            "precision": 0.9829222011385199,
+            "recall": 0.975517890772128,
+            "f1": 0.9792060491493384,
+            "roc_auc": 0.994385265256861
+        }
+    },
+    "candidate": {
+        "model": "RandomForestClassifier",
+        "metrics": {
+            "accuracy": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "roc_auc": 1.0
+        }
+    },
+    "promoted_model": "RandomForestClassifier",
+    "promoted_metrics": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "roc_auc": 1.0
+    }
+}
