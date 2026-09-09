@@ -1,0 +1,57 @@
+                  ┌──────────────────────┐
+                  │   Loan Dataset       │
+                  │ loan_approval_       │
+                  │ dataset.csv          │
+                  └──────────┬───────────┘
+                             │
+                             ▼
+                  ┌──────────────────────┐
+                  │ Data Ingestion       │
+                  └──────────┬───────────┘
+                             │
+                             ▼
+                  ┌──────────────────────┐
+                  │ Feature Engineering  │
+                  └──────────┬───────────┘
+                             │
+                 ┌───────────┴───────────┐
+                 │                       │
+                 ▼                       ▼
+        ┌─────────────────┐    ┌─────────────────┐
+        │ Stage 1         │    │ Stage 2         │
+        │ Classification  │    │ Valuation       │
+        │                 │    │                 │
+        │ Random Forest   │    │ Linear          │
+        │ Classifier      │    │ Regression      │
+        └────────┬────────┘    └────────┬────────┘
+                 │                      │
+                 ▼                      ▼
+          Approval Decision      Recommended
+          Approved/Rejected      Loan Amount
+                 │                      │
+                 └──────────┬───────────┘
+                            ▼
+                    ┌───────────────┐
+                    │ FastAPI       │
+                    │ REST API      │
+                    └───────┬───────┘
+                            │
+                            ▼
+                       End Users
+
+                       GitHub
+   │
+   ▼
+GitHub Actions
+   │
+   ├── Pytest
+   └── Docker Build
+
+Recent Batch
+     │
+     ▼
+Monitoring
+     │
+     ├── Data Quality
+     ├── Feature Drift
+     └── Retraining Flag
